@@ -46,8 +46,8 @@ public class UserController {
     }
 
     @DeleteMapping(value = "AS/users/{userId}")
-    public void deleteUser(@PathVariable(value = "userId") Long id, @RequestHeader(value="X-token") Token token) {
-        if(tokenIsValid(token) && usersToken.get(token).getId().equals(id)) {
+    public void deleteUser(@PathVariable(value = "userId") Long id, @RequestHeader(value="X-token") String token_key) {
+        if(tokenIsValid(getToken(token_key)) && usersToken.get(getToken(token_key)).getId().equals(id)) {
             if (users.containsKey(id)) {
                 users.remove(id);
             } else {
@@ -100,12 +100,11 @@ public class UserController {
     @DeleteMapping(value = "AS/users/{userId}/token")
     public void deleteToken(@PathVariable(value = "userId") Long id, @RequestHeader(value = "X-token") String token_key) {
 
-        if(tokenIsValid(getToken(token_key))) {
-            usersToken.forEach((tok, user) -> {
-                if (user.getId().equals(id)) {
-                    usersToken.remove(tok);
-                }
-            });
+        Token token = getToken(token_key);
+
+        if(usersToken.containsKey(token) && usersToken.get(token).getId().equals(id)) {
+            usersToken.remove(token);
+            tokens.remove(token_key);
         }
         else {
             throw new NotValidTokenException();
