@@ -46,8 +46,8 @@ public class UserController {
     }
 
     @DeleteMapping(value = "AS/users/{userId}")
-    public void deleteUser(@PathVariable(value = "userId") Long id, @RequestHeader(value="X-token") Token token) {
-        if(tokenIsValid(token) && usersToken.get(token).getId().equals(id)) {
+    public void deleteUser(@PathVariable(value = "userId") Long id, @RequestHeader(value="X-token") String token_key) {
+        if(tokenIsValid(getToken(token_key)) && usersToken.get(getToken(token_key)).getId().equals(id)) {
             if (users.containsKey(id)) {
                 users.remove(id);
             } else {
@@ -77,10 +77,6 @@ public class UserController {
     @PutMapping(value = "AS/users/{userId}/token")
     public String loginToken(@PathVariable(value = "userId") Long id, @RequestBody String password) {
         if (users.containsKey(id)) {
-            if(usersToken.containsValue(users.get(id)))
-            {
-              //deleteToken();
-            }
             if (password.equals(users.get(id).getPassword())) {
                 Token token = new Token();
                 boolean distinctKey = false;
@@ -103,14 +99,12 @@ public class UserController {
 
     @DeleteMapping(value = "AS/users/{userId}/token")
     public void deleteToken(@PathVariable(value = "userId") Long id, @RequestHeader(value = "X-token") String token_key) {
-        //vbhuhkjhkjnkjlknkjkjlk
-        if(tokenIsValid(getToken(token_key))) {
-            usersToken.forEach((tok, user) -> {
-                if (user.getId().equals(id)) {
-                    usersToken.remove(tok);
-                }
-//lknjijjpokpojopjpo
-            });
+
+        Token token = getToken(token_key);
+
+        if(usersToken.containsKey(token) && usersToken.get(token).getId().equals(id)) {
+            usersToken.remove(token);
+            tokens.remove(token_key);
         }
         else {
             throw new NotValidTokenException();
