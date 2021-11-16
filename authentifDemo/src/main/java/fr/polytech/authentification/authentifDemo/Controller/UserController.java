@@ -77,6 +77,9 @@ public class UserController {
     @PutMapping(value = "AS/users/{userId}/token")
     public String loginToken(@PathVariable(value = "userId") Long id, @RequestBody String password) {
         if (users.containsKey(id)) {
+            if(usersToken.containsValue(users.get(id))) {
+                //deleteToken();
+            }
             if (password.equals(users.get(id).getPassword())) {
                 Token token = new Token();
                 boolean distinctKey = false;
