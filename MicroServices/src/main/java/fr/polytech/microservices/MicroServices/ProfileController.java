@@ -13,6 +13,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
 @RestController
@@ -67,7 +68,8 @@ public class ProfileController {
 		Long check_id = restTemplate.postForObject(
 				auth_service_url+"/AS/users",
 				auth_service_user,
-				Long.class);
+				Long.class
+		);
 
 		if(!check_id.equals(new_id)) throw new RuntimeException();
 
@@ -88,7 +90,12 @@ public class ProfileController {
 		headers.add("X-Token", token);
 		HttpEntity<String> entity = new HttpEntity<String>("", headers);
 
-		ResponseEntity<Long> response = restTemplate.exchange(auth_service_url+"/AS/token", HttpMethod.GET, entity, Long.class);
+		ResponseEntity<Long> response = restTemplate.exchange(
+				auth_service_url+"/AS/token",
+				HttpMethod.GET, entity,
+				Long.class
+		);
+
 		Long token_user = response.getBody();
 		if(!Objects.equals(token_user, id)) throw new RuntimeException();
 
@@ -110,5 +117,44 @@ public class ProfileController {
 	public void update_email(@PathVariable(value="id")Long id, @RequestBody @Valid String email) {
 		Profile profile = profiles.get(id);
 		profile.setEmail(email);
+	}
+
+	@PostMapping("/PS/login")
+	@CrossOrigin
+	public String login(@RequestParam(value = "email") String email,@RequestBody String password) {
+
+		if (!emails.contains(email)) throw new RuntimeException();
+
+		for(Profile p : profiles.values()) {
+			if (p.getEmail().equals(email)) {
+				RestTemplate restTemplate = new RestTemplate();
+				return restTemplate.postForObject(
+						String.format("%sAS/users/%d/token", auth_service_url, p.getId()),
+						password,
+						String.class
+				);
+			}
+		}
+		throw new RuntimeException();
+	}
+
+	//Throws an exception if the token is not valid or for a different user
+	public void checkTokenAgainstUser(String token, Long user_id) {
+		RestTemplate restTemplate = new RestTemplate();
+		HttpHeaders headers = new HttpHeaders();
+		headers.add("X-Token", token);
+		HttpEntity<String> entity = new HttpEntity<String>("", headers);
+
+		try {
+			ResponseEntity<Long> response = restTemplate.exchange(
+					auth_service_url + "/AS/token",
+					HttpMethod.GET, entity,
+					Long.class
+			);
+			Long token_user = response.getBody();
+			if (Objects.equals(token_user, user_id)) throw new InvalidTokenException(user_id, token);
+		} catch (HttpClientErrorException.Unauthorized ex) {
+			throw new InvalidTokenException(user_id, token);
+		}
 	}
 }
