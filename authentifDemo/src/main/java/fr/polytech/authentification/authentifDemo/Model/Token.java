@@ -43,7 +43,7 @@ public class Token {
 
     public Boolean hasExpired() {
         Date T1 = new Date();
-        return (T1.getTime() - this.time) > 30000;
+        return (T1.getTime() - this.time) > 300000;
     }
 
 

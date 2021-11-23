@@ -8,6 +8,7 @@ public class AuthServiceUser {
     public AuthServiceUser(Long id) {
         super();
         this.id = id;
+        this.password = "default_password";
     }
 
     public Long getId() {

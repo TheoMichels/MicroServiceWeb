@@ -15,13 +15,6 @@ import java.util.Map;
 @RestController
 public class UserController {
 
-
-    // AMELIORATIONS
-
-    // gérer les tokens non distincts
-    // suppression d'un token expiré
-    //
-
     private final Map<Long, User> users = new HashMap<>();
     private final Map<Token, User> usersToken = new HashMap<>();
     private final Map<String, Token> tokens = new HashMap<>();
@@ -74,7 +67,7 @@ public class UserController {
         }
     }
 
-    @PutMapping(value = "AS/users/{userId}/token")
+    @PostMapping(value = "AS/users/{userId}/token")
     public String loginToken(@PathVariable(value = "userId") Long id, @RequestBody String password) {
         if (users.containsKey(id)) {
             if(usersToken.containsValue(users.get(id))) {
