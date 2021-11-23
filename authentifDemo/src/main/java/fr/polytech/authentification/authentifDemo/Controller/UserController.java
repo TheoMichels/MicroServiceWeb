@@ -71,7 +71,11 @@ public class UserController {
     public String loginToken(@PathVariable(value = "userId") Long id, @RequestBody String password) {
         if (users.containsKey(id)) {
             if(usersToken.containsValue(users.get(id))) {
-                //deleteToken();
+                for(Map.Entry<Token, User> p : usersToken.entrySet()) {
+                    if(p.getValue().getId().equals(id)) {
+                        usersToken.remove(p);
+                    }
+                }
             }
             if (password.equals(users.get(id).getPassword())) {
                 Token token = new Token();
