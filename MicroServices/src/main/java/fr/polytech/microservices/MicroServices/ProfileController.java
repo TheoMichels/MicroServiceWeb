@@ -88,7 +88,7 @@ public class ProfileController {
 		HttpEntity<String> entity = new HttpEntity<String>("", headers);
 
 		ResponseEntity<Long> response = restTemplate.exchange(
-				auth_service_url+"/token",
+				auth_service_url+"/AS/token",
 				HttpMethod.GET, entity,
 				Long.class
 		);
@@ -133,7 +133,7 @@ public class ProfileController {
 						String.class);
 			}
 		}
-		if (token == null) throw new RuntimeException("Cannot find ");
+		if (token == null) throw new RuntimeException("Cannot find a user with this email");
 		else return token;
 	}
 

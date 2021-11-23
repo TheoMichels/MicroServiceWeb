@@ -111,7 +111,7 @@ public class UserController {
         }
     }
 
-    @GetMapping(value = "/token")
+    @GetMapping(value = "/AS/token")
     public Long tokenValid(@RequestHeader(value = "X-token") String token_key) {
         if (tokenIsValid(getToken(token_key))) {
             return usersToken.get(getToken(token_key)).getId();
