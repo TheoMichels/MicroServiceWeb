@@ -5,6 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
 
 @SpringBootApplication
 @RestController
@@ -12,14 +13,8 @@ public class MicroServicesApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(MicroServicesApplication.class, args);
-	}
-
-	@GetMapping("/hello")
-	public String hello(
-			@RequestParam(value = "name", defaultValue = "World") String name,
-			@RequestParam(value = "foo", defaultValue = "5") Long num)
-	{
-		return String.format("Hello %s!", name, num+3);
+		ProfileController profileController = new ProfileController();
+		profileController.checkTokenAgainstUser("dkjqshkdhqkd", 12L);
 	}
 
 }
