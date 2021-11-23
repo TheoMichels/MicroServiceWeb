@@ -2,4 +2,4 @@
 
 Repository which contains all projects for the MicroServiceWeb class
 
-Swagger files are in ProjectName/src/main/resources
+Swagger files for each projects are in ProjectName/src/main/resources
