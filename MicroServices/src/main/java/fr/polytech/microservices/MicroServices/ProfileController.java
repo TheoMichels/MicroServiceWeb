@@ -122,7 +122,7 @@ public class ProfileController {
 
 		if (!emails.contains(email)) throw new RuntimeException();
 
-		String token = "";
+		String token = null;
 
 		for(Profile p : profiles.values()) {
 			if (p.getEmail().equals(email)) {
@@ -133,7 +133,7 @@ public class ProfileController {
 						String.class);
 			}
 		}
-		if (token == "") throw new RuntimeException();
+		if (token == null) throw new RuntimeException("Cannot find ");
 		else return token;
 	}
 
