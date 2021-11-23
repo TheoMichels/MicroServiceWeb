@@ -24,7 +24,7 @@ public class ProfileController {
 	private final Set<String> emails = new HashSet<>();
 	private Logger logger = LoggerFactory.getLogger(ProfileController.class);
 
-	@Value("$service.authentication")
+	@Value("${service.authentication}")
 	private String auth_service_url;
 	
 	@GetMapping("/PS/profiles")
@@ -65,13 +65,10 @@ public class ProfileController {
 
 		AuthServiceUser auth_service_user = new AuthServiceUser(new_id);
 		RestTemplate restTemplate = new RestTemplate();
-		Long check_id = restTemplate.postForObject(
+		logger.info(auth_service_url+"/AS/users");
+		restTemplate.put(
 				auth_service_url+"/AS/users",
-				auth_service_user,
-				Long.class
-		);
-
-		if(!check_id.equals(new_id)) throw new RuntimeException();
+				auth_service_user);
 
 		profiles.put(new_id, profile);
 		emails.add(email);
@@ -91,7 +88,7 @@ public class ProfileController {
 		HttpEntity<String> entity = new HttpEntity<String>("", headers);
 
 		ResponseEntity<Long> response = restTemplate.exchange(
-				auth_service_url+"/AS/token",
+				auth_service_url+"/token",
 				HttpMethod.GET, entity,
 				Long.class
 		);
@@ -125,17 +122,19 @@ public class ProfileController {
 
 		if (!emails.contains(email)) throw new RuntimeException();
 
+		String token = "";
+
 		for(Profile p : profiles.values()) {
 			if (p.getEmail().equals(email)) {
 				RestTemplate restTemplate = new RestTemplate();
-				return restTemplate.postForObject(
-						String.format("%sAS/users/%d/token", auth_service_url, p.getId()),
+				token = restTemplate.postForObject(
+						auth_service_url+"/AS/users/"+p.getId()+"/token",
 						password,
-						String.class
-				);
+						String.class);
 			}
 		}
-		throw new RuntimeException();
+		if (token == "") throw new RuntimeException();
+		else return token;
 	}
 
 	//Throws an exception if the token is not valid or for a different user
