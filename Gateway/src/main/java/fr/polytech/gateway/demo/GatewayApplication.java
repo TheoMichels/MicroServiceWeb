@@ -6,6 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.gateway.route.RouteLocator;
 import org.springframework.cloud.gateway.route.builder.RouteLocatorBuilder;
 import org.springframework.context.annotation.Bean;
+import org.springframework.http.HttpMethod;
 
 @SpringBootApplication
 public class GatewayApplication {
@@ -26,7 +27,38 @@ public class GatewayApplication {
 		return builder.routes()
 				.route(p -> p
 						.path("/profiles")
-						.uri(profile_service_url+"/PS"))
+						.filters(f -> f.prefixPath("/PS"))
+						.uri(profile_service_url))
+				.route(p -> p
+						.path("/profiles/{id}")
+						.filters(f -> f.prefixPath("/PS"))
+						.uri(profile_service_url))
+				.route(p -> p
+						.path("/profiles/{id}/name")
+						.filters(f -> f.prefixPath("/PS"))
+						.uri(profile_service_url))
+				.route(p -> p
+						.path("/profiles/{id}/email")
+						.filters(f -> f.prefixPath("/PS"))
+						.uri(profile_service_url))
+				.route(p -> p
+						.path("/users")
+						.and().method(HttpMethod.PUT)
+						.filters(f -> f.prefixPath("/AS"))
+						.uri(auth_service_url))
+				.route(p -> p
+						.path("/users/{userId}")
+						.and().method(HttpMethod.GET)
+						.filters(f -> f.prefixPath("/AS"))
+						.uri(auth_service_url))
+				.route(p -> p
+						.path("/users/{id}/token")
+						.filters(f-> f.prefixPath("/AS"))
+						.uri(auth_service_url))
+				.route(p -> p
+						.path("/token")
+						.filters(f -> f.prefixPath("/AS"))
+						.uri(auth_service_url))
 				.build();
 	}
 }
