@@ -1,1 +1,9 @@
-/Users/theomichels/Documents/IntelliJ/MicroServices/src/main/java/fr/polytech/microservices/MicroServices/MicroServicesApplication.java
+/Users/theomichels/Documents/IntelliJ/MicroServiceWeb/MicroServices/src/main/java/fr/polytech/microservices/MicroServices/InvalidTokenException.java
+/Users/theomichels/Documents/IntelliJ/MicroServiceWeb/MicroServices/src/main/java/fr/polytech/microservices/MicroServices/Profile.java
+/Users/theomichels/Documents/IntelliJ/MicroServiceWeb/MicroServices/src/main/java/fr/polytech/microservices/MicroServices/ProfileNotFoundException.java
+/Users/theomichels/Documents/IntelliJ/MicroServiceWeb/MicroServices/src/main/java/fr/polytech/microservices/MicroServices/EmailInUseException.java
+/Users/theomichels/Documents/IntelliJ/MicroServiceWeb/MicroServices/src/main/java/fr/polytech/microservices/MicroServices/ProfileExceptionController.java
+/Users/theomichels/Documents/IntelliJ/MicroServiceWeb/MicroServices/src/main/java/fr/polytech/microservices/MicroServices/ProfileController.java
+/Users/theomichels/Documents/IntelliJ/MicroServiceWeb/MicroServices/src/main/java/fr/polytech/microservices/MicroServices/AuthServiceUser.java
+/Users/theomichels/Documents/IntelliJ/MicroServiceWeb/MicroServices/src/main/java/fr/polytech/microservices/MicroServices/MicroServicesApplication.java
+/Users/theomichels/Documents/IntelliJ/MicroServiceWeb/MicroServices/src/main/java/fr/polytech/microservices/MicroServices/AuthServiceAPIException.java

@@ -1,4 +1,20 @@
 -------------------------------------------------------------------------------
 Test set: fr.polytech.microservices.MicroServices.MicroServicesApplicationTests
 -------------------------------------------------------------------------------
-Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 4.171 s - in fr.polytech.microservices.MicroServices.MicroServicesApplicationTests
+Tests run: 5, Failures: 0, Errors: 2, Skipped: 0, Time elapsed: 7.935 s <<< FAILURE! - in fr.polytech.microservices.MicroServices.MicroServicesApplicationTests
+putProfileShouldReturnConflictError  Time elapsed: 0.666 s  <<< ERROR!
+org.springframework.web.util.NestedServletException: Request processing failed; nested exception is org.springframework.web.client.ResourceAccessException: I/O error on PUT request for "http://localhost:8081/AS/users": Connection refused; nested exception is java.net.ConnectException: Connection refused
+	at fr.polytech.microservices.MicroServices.MicroServicesApplicationTests.putProfileShouldReturnConflictError(MicroServicesApplicationTests.java:53)
+Caused by: org.springframework.web.client.ResourceAccessException: I/O error on PUT request for "http://localhost:8081/AS/users": Connection refused; nested exception is java.net.ConnectException: Connection refused
+	at fr.polytech.microservices.MicroServices.MicroServicesApplicationTests.putProfileShouldReturnConflictError(MicroServicesApplicationTests.java:53)
+Caused by: java.net.ConnectException: Connection refused
+	at fr.polytech.microservices.MicroServices.MicroServicesApplicationTests.putProfileShouldReturnConflictError(MicroServicesApplicationTests.java:53)
+
+putProfileShouldSucceed  Time elapsed: 0.031 s  <<< ERROR!
+org.springframework.web.util.NestedServletException: Request processing failed; nested exception is org.springframework.web.client.ResourceAccessException: I/O error on PUT request for "http://localhost:8081/AS/users": Connection refused; nested exception is java.net.ConnectException: Connection refused
+	at fr.polytech.microservices.MicroServices.MicroServicesApplicationTests.putProfileShouldSucceed(MicroServicesApplicationTests.java:39)
+Caused by: org.springframework.web.client.ResourceAccessException: I/O error on PUT request for "http://localhost:8081/AS/users": Connection refused; nested exception is java.net.ConnectException: Connection refused
+	at fr.polytech.microservices.MicroServices.MicroServicesApplicationTests.putProfileShouldSucceed(MicroServicesApplicationTests.java:39)
+Caused by: java.net.ConnectException: Connection refused
+	at fr.polytech.microservices.MicroServices.MicroServicesApplicationTests.putProfileShouldSucceed(MicroServicesApplicationTests.java:39)
+

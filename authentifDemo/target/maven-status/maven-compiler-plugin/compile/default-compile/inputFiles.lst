@@ -1,1 +1,10 @@
+/Users/theomichels/Documents/IntelliJ/MicroServiceWeb/authentifDemo/src/main/java/fr/polytech/authentification/authentifDemo/Model/Token.java
+/Users/theomichels/Documents/IntelliJ/MicroServiceWeb/authentifDemo/src/main/java/fr/polytech/authentification/authentifDemo/Controller/Exceptions/WrongPasswordException.java
+/Users/theomichels/Documents/IntelliJ/MicroServiceWeb/authentifDemo/src/main/java/fr/polytech/authentification/authentifDemo/Controller/Exceptions/UserNotFoundException.java
+/Users/theomichels/Documents/IntelliJ/MicroServiceWeb/authentifDemo/src/main/java/fr/polytech/authentification/authentifDemo/Model/User.java
 /Users/theomichels/Documents/IntelliJ/MicroServiceWeb/authentifDemo/src/main/java/fr/polytech/authentification/authentifDemo/AuthentifDemoApplication.java
+/Users/theomichels/Documents/IntelliJ/MicroServiceWeb/authentifDemo/src/main/java/fr/polytech/authentification/authentifDemo/Controller/UserExceptionController.java
+/Users/theomichels/Documents/IntelliJ/MicroServiceWeb/authentifDemo/src/main/java/fr/polytech/authentification/authentifDemo/Controller/Exceptions/UserInUseException.java
+/Users/theomichels/Documents/IntelliJ/MicroServiceWeb/authentifDemo/src/main/java/fr/polytech/authentification/authentifDemo/Controller/UserController.java
+/Users/theomichels/Documents/IntelliJ/MicroServiceWeb/authentifDemo/src/main/java/fr/polytech/authentification/authentifDemo/Controller/Exceptions/NotValidTokenException.java
+/Users/theomichels/Documents/IntelliJ/MicroServiceWeb/authentifDemo/src/main/java/fr/polytech/authentification/authentifDemo/Controller/Exceptions/WrongAssociatedTokenException.java
