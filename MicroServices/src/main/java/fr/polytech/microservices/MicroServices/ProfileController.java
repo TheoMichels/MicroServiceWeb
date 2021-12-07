@@ -5,13 +5,19 @@ import java.util.concurrent.atomic.AtomicLong;
 
 import javax.validation.Valid;
 
+import org.apache.kafka.clients.admin.NewTopic;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
+import org.springframework.kafka.annotation.KafkaListener;
+import org.springframework.kafka.config.TopicBuilder;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
@@ -23,6 +29,27 @@ public class ProfileController {
 	private final Map<Long, Profile> profiles = new HashMap<>();
 	private final Set<String> emails = new HashSet<>();
 	private Logger logger = LoggerFactory.getLogger(ProfileController.class);
+
+	@Autowired
+	private KafkaTemplate<String, String> template;
+
+	@Bean
+	public NewTopic topic() {
+		return TopicBuilder.name("profile-changes")
+				.partitions(1)
+				.build();
+	}
+
+	@KafkaListener(id = "profile-listener", topics = "profile-changes")
+	public void listen(String in) {
+		logger.info(in);
+	}
+
+	private void send_message_for_profile(Long profile_id, String message) {
+		template.send(
+				"profile-changes",
+				profile_id.toString(), message);
+	}
 
 	@Value("${service.authentication}")
 	private String auth_service_url;
@@ -72,8 +99,9 @@ public class ProfileController {
 
 		profiles.put(new_id, profile);
 		emails.add(email);
-		logger.info(String.format("Profile created: [%d] %s.",
-				new_id, profile.getEmail()));
+//		logger.info(String.format("Profile created: [%d] %s.",
+//				new_id, profile.getEmail()));
+		send_message_for_profile(new_id , "The profile was created correctfully for user n°"+new_id);
 		return profile;
 	}
 	
