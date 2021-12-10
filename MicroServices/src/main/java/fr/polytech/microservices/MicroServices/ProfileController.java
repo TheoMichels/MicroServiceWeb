@@ -10,6 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -30,26 +31,32 @@ public class ProfileController {
 	private final Set<String> emails = new HashSet<>();
 	private Logger logger = LoggerFactory.getLogger(ProfileController.class);
 
-	@Autowired
-	private KafkaTemplate<String, String> template;
+	private final RestTemplate restTemplate;
 
-	@Bean
-	public NewTopic topic() {
-		return TopicBuilder.name("profile-changes")
-				.partitions(1)
-				.build();
+	public ProfileController(RestTemplateBuilder restTemplateBuilder) {
+		restTemplate = restTemplateBuilder.build();
 	}
 
-	@KafkaListener(id = "profile-listener", topics = "profile-changes")
-	public void listen(String in) {
-		logger.info(in);
-	}
-
-	private void send_message_for_profile(Long profile_id, String message) {
-		template.send(
-				"profile-changes",
-				profile_id.toString(), message);
-	}
+//	@Autowired
+//	private KafkaTemplate<String, String> template;
+//
+//	@Bean
+//	public NewTopic topic() {
+//		return TopicBuilder.name("profile-changes")
+//				.partitions(1)
+//				.build();
+//	}
+//
+//	@KafkaListener(id = "profile-listener", topics = "profile-changes")
+//	public void listen(String in) {
+//		logger.info(in);
+//	}
+//
+//	private void send_message_for_profile(Long profile_id, String message) {
+//		template.send(
+//				"profile-changes",
+//				profile_id.toString(), message);
+//	}
 
 	@Value("${service.authentication}")
 	private String auth_service_url;
@@ -91,7 +98,6 @@ public class ProfileController {
 		profile.setId(new_id);
 
 		AuthServiceUser auth_service_user = new AuthServiceUser(new_id);
-		RestTemplate restTemplate = new RestTemplate();
 		logger.info(auth_service_url+"/AS/users");
 		restTemplate.put(
 				auth_service_url+"/AS/users",
@@ -99,9 +105,7 @@ public class ProfileController {
 
 		profiles.put(new_id, profile);
 		emails.add(email);
-//		logger.info(String.format("Profile created: [%d] %s.",
-//				new_id, profile.getEmail()));
-		send_message_for_profile(new_id , "The profile was created correctfully for user n°"+new_id);
+
 		return profile;
 	}
 	
@@ -110,7 +114,6 @@ public class ProfileController {
 	public void profiles_delete(@PathVariable(value = "id") Long id, @RequestHeader(value = "X-token") String token) {
 		logger.trace(String.format("DELETE /PS/profiles/%d", id));
 
-		RestTemplate restTemplate = new RestTemplate();
 		HttpHeaders headers = new HttpHeaders();
 		headers.add("X-Token", token);
 		HttpEntity<String> entity = new HttpEntity<String>("", headers);
@@ -154,7 +157,6 @@ public class ProfileController {
 
 		for(Profile p : profiles.values()) {
 			if (p.getEmail().equals(email)) {
-				RestTemplate restTemplate = new RestTemplate();
 				token = restTemplate.postForObject(
 						auth_service_url+"/AS/users/"+p.getId()+"/token",
 						password,
@@ -167,7 +169,6 @@ public class ProfileController {
 
 	//Throws an exception if the token is not valid or for a different user
 	public void checkTokenAgainstUser(String token, Long user_id) {
-		RestTemplate restTemplate = new RestTemplate();
 		HttpHeaders headers = new HttpHeaders();
 		headers.add("X-Token", token);
 		HttpEntity<String> entity = new HttpEntity<String>("", headers);
