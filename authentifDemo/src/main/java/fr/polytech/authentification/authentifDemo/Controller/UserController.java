@@ -68,7 +68,7 @@ public class UserController {
     }
 
     @PostMapping(value = "AS/users/{userId}/token")
-    public String loginToken(@PathVariable(value = "userId") Long id, @RequestBody String password) {
+    public String loginUser(@PathVariable(value = "userId") Long id, @RequestBody String password) {
         if (users.containsKey(id)) {
             if(usersToken.containsValue(users.get(id))) {
                 for(Map.Entry<Token, User> p : usersToken.entrySet()) {

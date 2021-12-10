@@ -1,6 +1,7 @@
 package fr.polytech.microservices.MicroServices;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import fr.polytech.microservices.MicroServices.Model.Profile;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -13,7 +14,6 @@ import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.client.MockRestServiceServer;
 import org.springframework.test.web.servlet.MockMvc;
 
-import static org.springframework.test.web.client.ExpectedCount.manyTimes;
 import static org.springframework.test.web.client.ExpectedCount.once;
 import static org.springframework.test.web.client.match.MockRestRequestMatchers.method;
 import static org.springframework.test.web.client.match.MockRestRequestMatchers.requestTo;

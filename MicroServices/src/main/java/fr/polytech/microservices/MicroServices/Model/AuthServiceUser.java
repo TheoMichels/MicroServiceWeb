@@ -1,4 +1,4 @@
-package fr.polytech.microservices.MicroServices;
+package fr.polytech.microservices.MicroServices.Model;
 
 public class AuthServiceUser {
 

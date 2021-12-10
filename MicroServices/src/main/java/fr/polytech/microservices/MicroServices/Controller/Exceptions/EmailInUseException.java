@@ -1,4 +1,4 @@
-package fr.polytech.microservices.MicroServices;
+package fr.polytech.microservices.MicroServices.Controller.Exceptions;
 
 public class EmailInUseException extends RuntimeException {
 	

@@ -10,8 +10,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MockMvc;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -99,5 +98,27 @@ class AuthentifDemoApplicationTests {
 				)
 				.andDo(print())
 				.andExpect(status().isNotFound());
+	}
+
+	@Test
+	public void loginUserShouldSucceed() throws Exception {
+
+		User user = new User();
+		user.setId(1L);
+		ObjectMapper objectMapper = new ObjectMapper();
+		String profile_json = objectMapper.writeValueAsString(user);
+
+		this.mockMvc.perform(put("/AS/users")
+						.content(profile_json)
+						.contentType(MediaType.APPLICATION_JSON)
+				)
+				.andDo(print())
+				.andExpect(status().isOk());
+
+		this.mockMvc.perform(post("/AS/users/"+user.getId()+"/token")
+						.content("default_password")
+				)
+				.andDo(print())
+				.andExpect(status().isOk());
 	}
 }

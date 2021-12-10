@@ -1,5 +1,7 @@
-package fr.polytech.microservices.MicroServices;
+package fr.polytech.microservices.MicroServices.Controller;
 
+import fr.polytech.microservices.MicroServices.Controller.Exceptions.EmailInUseException;
+import fr.polytech.microservices.MicroServices.Controller.Exceptions.ProfileNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;

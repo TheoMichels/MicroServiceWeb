@@ -3,7 +3,7 @@ package fr.polytech.authentification.authentifDemo.Model;
 public class User {
 
     Long id;
-    String password;
+    String password = "default_password";
 
     public Long getId() {
         return id;
