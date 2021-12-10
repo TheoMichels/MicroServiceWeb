@@ -3,4 +3,6 @@ target/
 .mvn/
 MicroServices.iml
 mvnw*
-
+authentifDemo/target/
+MicroServices/target/
+Gateway/target/
